@@ -1,6 +1,7 @@
 ChameleonBackgrounds
 ===================
 A jQuery library to dynamically load background elements.
+See live demo's at http://chameleonbackgrounds.com
 
 ------------
 I essentially created this plugin to **withhold large background image files from the initial load**.

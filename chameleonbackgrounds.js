@@ -4,7 +4,7 @@
   | |    | |__   __ _ _ __ ___   ___| | ___  ___  _ __
   | |    | '_ \ / _` | '_ ` _ \ / _ \ |/ _ \/ _ \| '_ \
   | |____| | | | (_| | | | | | |  __/ |  __/ (_) | | | |
-  \_____|_| |_|\__,_|_| |_| |_|\___|_|\___|\___/|_| |_|_
+   \_____|_| |_|\__,_|_| |_| |_|\___|_|\___|\___/|_| |_|_
   |  _ \           | |                                 | |
   | |_) | __ _  ___| | ____ _ _ __ ___  _   _ _ __   __| |___
   |  _ < / _` |/ __| |/ / _` | '__/ _ \| | | | '_ \ / _` / __|
@@ -15,7 +15,7 @@
   Author: Lennart van Ballegoij (https://webverder.nl)
   Repo: https://github.com/WebVerder/ChameleonBackgrounds
   Version: 1.0.0
-  
+
 */
 var ChameleonBackgrounds = function(options) {
   if(options){
