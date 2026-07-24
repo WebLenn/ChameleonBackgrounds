@@ -14,7 +14,7 @@
  *                        |___/
  *
  *  @module ChameleonBackgrounds
- *  @version 2.0.0
+ *  @version 2.1.2
  *  @author Lennart van Ballegoij (https://weblenn.com/)
  *  @license MIT
  *  @see https://github.com/WebLenn/ChameleonBackgrounds
@@ -324,7 +324,7 @@ class ChameleonBackgrounds {
     return new Promise((resolve) => {
       setTimeout(() => {
         if (this.#destroyed) return resolve();
-        
+
         if (this.#options.type === 'single') {
           const singleSrc = typeof this.#options.src === 'string' ? this.#options.src : this.#options.src[0];
           this.#loadBackground(singleSrc, false).then(resolve);
