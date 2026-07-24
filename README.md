@@ -157,6 +157,23 @@ Stops any running slider, removes all injected DOM and styles, and restores the 
 
 Returns a read-only copy of the resolved options.
 
+### `.reloadOptions(newOptions)`
+
+Update options on the fly without destroying the instance. For example, you can change the transition duration or even convert a single background into a slider dynamically:
+```javascript
+bg.reloadOptions({
+  type: 'slider',
+  src: [
+    './img/slide1.jpg',
+    './img/slide2.jpg'
+  ],
+  transitionDuration: 5000,
+  overlayColor: '#ff0000'
+});
+// To apply the updated options, simply reload the background
+bg.reloadBackground();
+```
+
 ---
 
 ## Migration from v1

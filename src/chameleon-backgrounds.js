@@ -293,12 +293,28 @@ class ChameleonBackgrounds {
   }
 
   /**
+  /**
    * Reload background with a fade-out → swap → fade-in cycle.
-   * @param {string} src - New image URL.
+   * @param {string} [src] - Optional new image URL. If omitted, reloads using current options.
    * @returns {Promise<void>}
    */
   reloadBackground(src) {
     if (this.#destroyed) return Promise.resolve();
+
+    if (src !== undefined) {
+      if (this.#options.type === 'slider' && typeof src === 'string') {
+        // If the user passes a comma-separated string, split it. Otherwise wrap it.
+        this.#options.src = src.includes(',') ? src.split(',').map(s => s.trim()) : [src];
+      } else {
+        this.#options.src = src;
+      }
+    }
+
+    // Stop any running slider
+    if (this.#sliderIntervalId !== null) {
+      clearInterval(this.#sliderIntervalId);
+      this.#sliderIntervalId = null;
+    }
 
     const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
     if (loader) {
@@ -308,9 +324,36 @@ class ChameleonBackgrounds {
     return new Promise((resolve) => {
       setTimeout(() => {
         if (this.#destroyed) return resolve();
-        this.#loadBackground(src, false).then(resolve);
+        
+        if (this.#options.type === 'single') {
+          const singleSrc = typeof this.#options.src === 'string' ? this.#options.src : this.#options.src[0];
+          this.#loadBackground(singleSrc, false).then(resolve);
+        } else if (this.#options.type === 'slider') {
+          this.#startSlider();
+          resolve();
+        }
       }, this.#options.transitionDuration);
     });
+  }
+
+  /**
+   * Update options on the fly without destroying the instance.
+   * @param {Object} newOptions - The new options to merge.
+   */
+  reloadOptions(newOptions) {
+    if (this.#destroyed) return;
+
+    const normalized = ChameleonBackgrounds.#normalizeOptions(newOptions);
+    this.#options = { ...this.#options, ...normalized };
+
+    // Remove old styles
+    if (this.#styleElement?.parentNode) {
+      this.#styleElement.parentNode.removeChild(this.#styleElement);
+      this.#styleElement = null;
+    }
+
+    // Inject updated styles
+    this.#injectStyles();
   }
 
   // ---------------------------------------------------------------------------
