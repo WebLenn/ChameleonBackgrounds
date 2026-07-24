@@ -14,7 +14,7 @@
  *                        |___/
  *
  *  @module ChameleonBackgrounds
- *  @version 3.0.0
+ *  @version 3.0.1
  *  @author Lennart van Ballegoij (https://weblenn.com/)
  *  @license MIT
  *  @see https://github.com/WebLenn/ChameleonBackgrounds
@@ -98,6 +98,12 @@ class ChameleonBackgrounds {
   #currentSlideIndex = 0;
 
   /** @type {boolean} */
+  #hasLoadedFirstBackground = false;
+
+  /** @type {number} */
+  #transitionId = 0;
+
+  /** @type {boolean} */
   #isPaused = false;
 
   /** @type {IntersectionObserver|null} */
@@ -134,7 +140,7 @@ class ChameleonBackgrounds {
 
     // Stop any running slider
     if (this.#sliderIntervalId !== null) {
-      clearInterval(this.#sliderIntervalId);
+      clearTimeout(this.#sliderIntervalId);
       this.#sliderIntervalId = null;
     }
 
@@ -230,7 +236,7 @@ class ChameleonBackgrounds {
     if (this.#destroyed || this.#options.type !== 'slider') return;
     this.#isPaused = true;
     if (this.#sliderIntervalId !== null) {
-      clearInterval(this.#sliderIntervalId);
+      clearTimeout(this.#sliderIntervalId);
       this.#sliderIntervalId = null;
     }
   }
@@ -440,7 +446,10 @@ class ChameleonBackgrounds {
           if (loader) {
             loader.style.opacity = String(this.#options.minOverlay);
           }
-          resolve();
+          this.#hasLoadedFirstBackground = true;
+          setTimeout(() => {
+            resolve();
+          }, this.#options.transitionDuration);
         }
       };
 
@@ -463,6 +472,8 @@ class ChameleonBackgrounds {
   reloadBackground(src) {
     if (this.#destroyed) return Promise.resolve();
 
+    this.#transitionId++;
+
     if (src !== undefined) {
       if (this.#options.type === 'slider' && typeof src === 'string') {
         // If the user passes a comma-separated string, split it.
@@ -474,30 +485,17 @@ class ChameleonBackgrounds {
 
     // Stop any running slider
     if (this.#sliderIntervalId !== null) {
-      clearInterval(this.#sliderIntervalId);
+      clearTimeout(this.#sliderIntervalId);
       this.#sliderIntervalId = null;
     }
 
-    // For solid mode, we fade the loader up. For crossfade, we don't.
-    const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
-    if (loader && this.#options.transitionMode === 'solid') {
-      loader.style.opacity = '1';
+    if (this.#options.type === 'single') {
+      const singleSrc = Array.isArray(this.#options.src) ? this.#options.src[0] : this.#options.src;
+      return this.#cycleSliderSlide(singleSrc, this.#transitionId);
+    } else if (this.#options.type === 'slider') {
+      this.#startSlider(this.#transitionId);
+      return Promise.resolve();
     }
-
-    return new Promise((resolve) => {
-      const waitTime = this.#options.transitionMode === 'solid' ? this.#options.transitionDuration : 0;
-      setTimeout(() => {
-        if (this.#destroyed) return resolve();
-
-        if (this.#options.type === 'single') {
-          const singleSrc = Array.isArray(this.#options.src) ? this.#options.src[0] : this.#options.src;
-          this.#loadBackground(singleSrc, false, this.#options.transitionMode === 'crossfade').then(resolve);
-        } else if (this.#options.type === 'slider') {
-          this.#startSlider();
-          resolve();
-        }
-      }, waitTime);
-    });
   }
 
   /**
@@ -511,10 +509,8 @@ class ChameleonBackgrounds {
     this.#options = { ...this.#options, ...normalized };
 
     this.#updateCSSVariables();
-    // Restart slider if needed
-    if (this.#options.type === 'slider' && !this.#isPaused && !this.#sliderIntervalId) {
-      this.#startSlider();
-    }
+    // In v1/v2, reloadOptions did not restart the slider; the user called reloadBackground.
+    // We intentionally do not auto-restart here to prevent concurrent race conditions.
   }
 
   // ---------------------------------------------------------------------------
@@ -523,8 +519,9 @@ class ChameleonBackgrounds {
 
   /**
    * Start the background slideshow.
+   * @param {number} tid - The transition ID
    */
-  #startSlider() {
+  #startSlider(tid = this.#transitionId) {
     if (this.#destroyed) return;
 
     const sources = this.#options.src;
@@ -533,68 +530,86 @@ class ChameleonBackgrounds {
       return;
     }
 
-    // Load the first slide immediately
     this.#currentSlideIndex = 0;
-    this.#loadBackground(sources[this.#currentSlideIndex]).then(() => {
-      if (this.#destroyed) return;
 
-      this.#currentSlideIndex = 1;
-      if (sources.length === 1) return; // only one slide, nothing to rotate
-
-      this.#startSliderLoop();
-    });
+    if (this.#hasLoadedFirstBackground) {
+      // Instance already has a background, crossfade smoothly
+      this.#cycleSliderSlide(sources[this.#currentSlideIndex], tid).then(() => {
+        if (this.#destroyed || this.#transitionId !== tid) return;
+        this.#currentSlideIndex = 1;
+        if (sources.length > 1) this.#startSliderLoop();
+      });
+    } else {
+      // First load, load immediately without solid color flash
+      this.#loadBackground(sources[this.#currentSlideIndex], true, this.#options.transitionMode === 'crossfade').then(() => {
+        if (this.#destroyed || this.#transitionId !== tid) return;
+        this.#hasLoadedFirstBackground = true;
+        this.#currentSlideIndex = 1;
+        if (sources.length > 1) this.#startSliderLoop();
+      });
+    }
   }
 
   #startSliderLoop() {
-    const sources = this.#options.src;
+    if (this.#destroyed || this.#isPaused) return;
 
     // Parse as integers to prevent string concatenation bugs if users passed strings
     const sDuration = parseInt(this.#options.sliderDuration, 10) || 8000;
-    const tDuration = parseInt(this.#options.transitionDuration, 10) || 2000;
-    const interval = sDuration + tDuration * (this.#options.transitionMode === 'solid' ? 2 : 1);
 
-    this.#sliderIntervalId = setInterval(() => {
+    this.#sliderIntervalId = setTimeout(() => {
       if (this.#destroyed || this.#isPaused) {
-        clearInterval(this.#sliderIntervalId);
         this.#sliderIntervalId = null;
         return;
       }
 
-      this.#cycleSliderSlide(sources[this.#currentSlideIndex]);
-      this.#currentSlideIndex++;
-
-      if (this.#currentSlideIndex >= sources.length) {
-        if (this.#options.sliderLoop) {
-          this.#currentSlideIndex = 0;
-        } else {
-          clearInterval(this.#sliderIntervalId);
+      const tid = this.#transitionId;
+      this.#cycleSliderSlide(this.#options.src[this.#currentSlideIndex], tid).then(() => {
+        if (this.#destroyed || this.#isPaused || this.#transitionId !== tid) {
           this.#sliderIntervalId = null;
+          return;
         }
-      }
-    }, interval);
+
+        this.#currentSlideIndex++;
+
+        if (this.#currentSlideIndex >= this.#options.src.length) {
+          if (this.#options.sliderLoop) {
+            this.#currentSlideIndex = 0;
+          } else {
+            this.#sliderIntervalId = null;
+            return;
+          }
+        }
+
+        this.#startSliderLoop();
+      });
+    }, sDuration);
   }
 
   /**
    * Cycle to a specific slide without resetting the slider instance.
    * @param {string|ChameleonImageConfig} src - The image URL/config to load.
+   * @param {number} tid - The transition ID
+   * @returns {Promise<void>}
    */
-  #cycleSliderSlide(src) {
-    if (this.#destroyed) return;
+  #cycleSliderSlide(src, tid = this.#transitionId) {
+    if (this.#destroyed) return Promise.resolve();
 
-    if (this.#options.transitionMode === 'solid') {
-      const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
-      if (loader) {
-        loader.style.opacity = '1';
+    return new Promise(resolve => {
+      if (this.#options.transitionMode === 'solid') {
+        const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
+        if (loader) {
+          loader.style.opacity = '1';
+        }
+
+        setTimeout(() => {
+          if (this.#destroyed || this.#transitionId !== tid) return resolve();
+          this.#loadBackground(src, false, false).then(resolve);
+        }, this.#options.transitionDuration);
+      } else {
+        // Crossfade mode triggers immediately
+        this.#loadBackground(src, false, true).then(resolve);
       }
-
-      setTimeout(() => {
-        if (this.#destroyed) return;
-        this.#loadBackground(src, false, false);
-      }, this.#options.transitionDuration);
-    } else {
-      // Crossfade mode triggers immediately
-      this.#loadBackground(src, false, true);
-    }
+    });
   }
 
   // ---------------------------------------------------------------------------

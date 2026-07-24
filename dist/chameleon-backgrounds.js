@@ -1,348 +1,339 @@
 (function webpackUniversalModuleDefinition(root, factory) {
-  if (typeof exports === 'object' && typeof module === 'object')
-    module.exports = factory();
-  else if (typeof define === 'function' && define.amd)
-    define([], factory);
-  else if (typeof exports === 'object')
-    exports["ChameleonBackgrounds"] = factory();
-  else
-    root["ChameleonBackgrounds"] = factory();
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["ChameleonBackgrounds"] = factory();
+	else
+		root["ChameleonBackgrounds"] = factory();
 })(this, () => {
-  return /******/ (() => { // webpackBootstrap
+return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	const __webpack_require__ = {};
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter/value functions for harmony exports
 /******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			if (Array.isArray(definition)) {
+/******/ 			if(Array.isArray(definition)) {
 /******/ 				var i = 0;
-/******/ 				while (i < definition.length) {
+/******/ 				while(i < definition.length) {
 /******/ 					var key = definition[i++];
 /******/ 					var binding = definition[i++];
-/******/ 					if (!__webpack_require__.o(exports, key)) {
-/******/ 						if (binding === 0) {
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
 /******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
-                /******/
-              } else {
+/******/ 						} else {
 /******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
-                /******/
-              }
-              /******/
-            } else if (binding === 0) { i++; }
-            /******/
-          }
-          /******/
-        } else {
-/******/ 				for (var key in definition) {
-/******/ 					if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-              /******/
-            }
-            /******/
-          }
-          /******/
-        }
-        /******/
-      };
-      /******/
-    })();
-/******/
+/******/ 					}
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-      /******/
-    })();
-/******/
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
 /******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if (Symbol.toStringTag) {
+/******/ 			if(Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-          /******/
-        }
+/******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-        /******/
-      };
-      /******/
-    })();
-    /******/
-    /************************************************************************/
-    let __webpack_exports__ = {};
-    /*!**************************************!*\
-      !*** ./src/chameleon-backgrounds.js ***!
-      \**************************************/
-    __webpack_require__.r(__webpack_exports__);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+let __webpack_exports__ = {};
+/*!**************************************!*\
+  !*** ./src/chameleon-backgrounds.js ***!
+  \**************************************/
+__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ChameleonBackgrounds: () => (/* binding */ ChameleonBackgrounds),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-      /* harmony export */
-    });
-    /**
-     *    _____ _                          _
-     *   / ____| |                        | |
-     *  | |    | |__   __ _ _ __ ___   ___| | ___  ___  _ __
-     *  | |    | '_ \ / _` | '_ ` _ \ / _ \ |/ _ \/ _ \| '_ \
-     *  | |____| | | | (_| | | | | | |  __/ |  __/ (_) | | | |
-     *   \_____|_| |_|\__,_|_| |_| |_|\___|_|\___|\___|_| |_|_
-     *  |  _ \           | |                                 | |
-     *  | |_) | __ _  ___| | ____ _ _ __ ___  _   _ _ __   __| |___
-     *  |  _ < / _` |/ __| |/ / _` | '__/ _ \| | | | '_ \ / _` / __|
-     *  | |_) | (_| | (__|   < (_| | | | (_) | |_| | | | | (_| \__ \
-     *  |____/ \__,_|\___|_|\_\__, |_|  \___/ \__,_|_| |_|\__,_|___/
-     *                         __/ |
-     *                        |___/
-     *
-     *  @module ChameleonBackgrounds
-     *  @version 3.0.0
-     *  @author Lennart van Ballegoij (https://weblenn.com/)
-     *  @license MIT
-     *  @see https://github.com/WebLenn/ChameleonBackgrounds
-     *
-     *  A zero-dependency JavaScript library to dynamically load background
-     *  images with elegant fade-in transitions and slideshow support.
-     */
+/* harmony export */ });
+/**
+ *    _____ _                          _
+ *   / ____| |                        | |
+ *  | |    | |__   __ _ _ __ ___   ___| | ___  ___  _ __
+ *  | |    | '_ \ / _` | '_ ` _ \ / _ \ |/ _ \/ _ \| '_ \
+ *  | |____| | | | (_| | | | | | |  __/ |  __/ (_) | | | |
+ *   \_____|_| |_|\__,_|_| |_| |_|\___|_|\___|\___|_| |_|_
+ *  |  _ \           | |                                 | |
+ *  | |_) | __ _  ___| | ____ _ _ __ ___  _   _ _ __   __| |___
+ *  |  _ < / _` |/ __| |/ / _` | '__/ _ \| | | | '_ \ / _` / __|
+ *  | |_) | (_| | (__|   < (_| | | | (_) | |_| | | | | (_| \__ \
+ *  |____/ \__,_|\___|_|\_\__, |_|  \___/ \__,_|_| |_|\__,_|___/
+ *                         __/ |
+ *                        |___/
+ *
+ *  @module ChameleonBackgrounds
+ *  @version 3.0.1
+ *  @author Lennart van Ballegoij (https://weblenn.com/)
+ *  @license MIT
+ *  @see https://github.com/WebLenn/ChameleonBackgrounds
+ *
+ *  A zero-dependency JavaScript library to dynamically load background
+ *  images with elegant fade-in transitions and slideshow support.
+ */
 
-    /**
-     * @typedef {Object} ChameleonImageConfig
-     * @property {string} url - The fallback URL.
-     * @property {string} [srcset] - Optional srcset.
-     * @property {string} [sizes] - Optional sizes.
-     *
-     * @typedef {Object} ChameleonOptions
-     * @property {string|HTMLElement}       element             - CSS selector or DOM element to attach to.
-     * @property {'single'|'slider'}       type                - Background mode.
-     * @property {string|string[]|ChameleonImageConfig|ChameleonImageConfig[]} src - Image URL(s) or config object(s).
-     * @property {string}                  overlayColor        - Overlay color (hex, rgb, rgba, hsl).
-     * @property {string}                  [overlayImage]      - Optional overlay pattern image URL.
-     * @property {number}                  [minOverlay=0]      - Minimum overlay opacity after fade (0–1).
-     * @property {number}                  [transitionDuration=2000] - Fade duration in milliseconds.
-     * @property {number}                  [sliderDuration=8000]     - Time each slide is shown in milliseconds.
-     * @property {boolean}                 [sliderLoop=false]        - Whether the slider restarts after the last slide.
-     * @property {'high'|'low'|'auto'}     [fetchPriority='auto']    - fetchPriority for the first loaded image (e.g., 'high' for LCP images).
-     * @property {boolean}                 [lazyLoad=true]           - Whether to wait until element is in viewport using IntersectionObserver.
-     * @property {'solid'|'crossfade'}     [transitionMode='solid']  - Transition mode: 'solid' (fade to color) or 'crossfade' (fade between images).
-     */
+/**
+ * @typedef {Object} ChameleonImageConfig
+ * @property {string} url - The fallback URL.
+ * @property {string} [srcset] - Optional srcset.
+ * @property {string} [sizes] - Optional sizes.
+ *
+ * @typedef {Object} ChameleonOptions
+ * @property {string|HTMLElement}       element             - CSS selector or DOM element to attach to.
+ * @property {'single'|'slider'}       type                - Background mode.
+ * @property {string|string[]|ChameleonImageConfig|ChameleonImageConfig[]} src - Image URL(s) or config object(s).
+ * @property {string}                  overlayColor        - Overlay color (hex, rgb, rgba, hsl).
+ * @property {string}                  [overlayImage]      - Optional overlay pattern image URL.
+ * @property {number}                  [minOverlay=0]      - Minimum overlay opacity after fade (0–1).
+ * @property {number}                  [transitionDuration=2000] - Fade duration in milliseconds.
+ * @property {number}                  [sliderDuration=8000]     - Time each slide is shown in milliseconds.
+ * @property {boolean}                 [sliderLoop=false]        - Whether the slider restarts after the last slide.
+ * @property {'high'|'low'|'auto'}     [fetchPriority='auto']    - fetchPriority for the first loaded image (e.g., 'high' for LCP images).
+ * @property {boolean}                 [lazyLoad=true]           - Whether to wait until element is in viewport using IntersectionObserver.
+ * @property {'solid'|'crossfade'}     [transitionMode='solid']  - Transition mode: 'solid' (fade to color) or 'crossfade' (fade between images).
+ */
 
-    class ChameleonBackgrounds {
-      /** @type {ChameleonOptions} */
-      static #DEFAULTS = Object.freeze({
-        element: 'body',
-        type: 'single',
-        src: '',
-        overlayColor: '#0f1e25',
-        overlayImage: null,
-        minOverlay: 0,
-        transitionDuration: 2000,
-        sliderDuration: 8000,
-        sliderLoop: false,
-        fetchPriority: 'auto',
-        lazyLoad: true,
-        transitionMode: 'solid',
-        respectReducedMotion: false,
-      });
+class ChameleonBackgrounds {
+  /** @type {ChameleonOptions} */
+  static #DEFAULTS = Object.freeze({
+    element: 'body',
+    type: 'single',
+    src: '',
+    overlayColor: '#0f1e25',
+    overlayImage: null,
+    minOverlay: 0,
+    transitionDuration: 2000,
+    sliderDuration: 8000,
+    sliderLoop: false,
+    fetchPriority: 'auto',
+    lazyLoad: true,
+    transitionMode: 'solid',
+    respectReducedMotion: false,
+  });
 
-      // Legacy snake_case → camelCase alias map
-      static #ALIASES = Object.freeze({
-        transition_duration: 'transitionDuration',
-        slider_duration: 'sliderDuration',
-        slider_loop: 'sliderLoop',
-        min_overlay: 'minOverlay',
-        overlay_color: 'overlayColor',
-        overlay_image: 'overlayImage',
-        fetch_priority: 'fetchPriority',
-        lazy_load: 'lazyLoad',
-        transition_mode: 'transitionMode',
-        respect_reduced_motion: 'respectReducedMotion',
-      });
+  // Legacy snake_case → camelCase alias map
+  static #ALIASES = Object.freeze({
+    transition_duration: 'transitionDuration',
+    slider_duration: 'sliderDuration',
+    slider_loop: 'sliderLoop',
+    min_overlay: 'minOverlay',
+    overlay_color: 'overlayColor',
+    overlay_image: 'overlayImage',
+    fetch_priority: 'fetchPriority',
+    lazy_load: 'lazyLoad',
+    transition_mode: 'transitionMode',
+    respect_reduced_motion: 'respectReducedMotion',
+  });
 
-      /** @type {boolean} */
-      static #globalStylesInjected = false;
+  /** @type {boolean} */
+  static #globalStylesInjected = false;
 
-      /** @type {ChameleonOptions} */
-      #options;
+  /** @type {ChameleonOptions} */
+  #options;
 
-      /** @type {HTMLElement} */
-      #element;
+  /** @type {HTMLElement} */
+  #element;
 
-      /** @type {string} */
-      #uid;
+  /** @type {string} */
+  #uid;
 
-      /** @type {string} */
-      #originalHTML;
+  /** @type {string} */
+  #originalHTML;
 
-      /** @type {number|null} */
-      #sliderIntervalId = null;
+  /** @type {number|null} */
+  #sliderIntervalId = null;
 
-      /** @type {number} */
-      #currentSlideIndex = 0;
+  /** @type {number} */
+  #currentSlideIndex = 0;
 
-      /** @type {boolean} */
-      #isPaused = false;
+  /** @type {boolean} */
+  #hasLoadedFirstBackground = false;
 
-      /** @type {IntersectionObserver|null} */
-      #observer = null;
+  /** @type {number} */
+  #transitionId = 0;
 
-      /** @type {boolean} */
-      #destroyed = false;
+  /** @type {boolean} */
+  #isPaused = false;
 
-      /**
-       * Create a new ChameleonBackgrounds instance.
-       * @param {Partial<ChameleonOptions>} [options]
-       */
-      constructor(options = {}) {
-        const normalized = ChameleonBackgrounds.#normalizeOptions(options);
-        this.#options = { ...ChameleonBackgrounds.#DEFAULTS, ...normalized };
-        this.#uid = ChameleonBackgrounds.#generateUID();
-        this.#element = ChameleonBackgrounds.#resolveElement(this.#options.element);
-        this.#originalHTML = this.#element.innerHTML;
+  /** @type {IntersectionObserver|null} */
+  #observer = null;
 
-        this.#init();
+  /** @type {boolean} */
+  #destroyed = false;
+
+  /**
+   * Create a new ChameleonBackgrounds instance.
+   * @param {Partial<ChameleonOptions>} [options]
+   */
+  constructor(options = {}) {
+    const normalized = ChameleonBackgrounds.#normalizeOptions(options);
+    this.#options = { ...ChameleonBackgrounds.#DEFAULTS, ...normalized };
+    this.#uid = ChameleonBackgrounds.#generateUID();
+    this.#element = ChameleonBackgrounds.#resolveElement(this.#options.element);
+    this.#originalHTML = this.#element.innerHTML;
+
+    this.#init();
+  }
+
+  // ---------------------------------------------------------------------------
+  //  Public API
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Clean up all injected DOM, styles, and intervals.
+   * Restores the target element to its original state.
+   */
+  destroy() {
+    if (this.#destroyed) return;
+    this.#destroyed = true;
+
+    // Stop any running slider
+    if (this.#sliderIntervalId !== null) {
+      clearTimeout(this.#sliderIntervalId);
+      this.#sliderIntervalId = null;
+    }
+
+    if (this.#observer) {
+      this.#observer.disconnect();
+      this.#observer = null;
+    }
+
+    // Clean up dynamic classes on host
+    this.#element.classList.remove(`cbg-host-${this.#uid}`, 'cbg-host');
+
+    // Unwrap the original content instead of resetting innerHTML
+    const wrapper = this.#element.querySelector(`#cbg-inner-${this.#uid}`);
+    if (wrapper && wrapper.parentNode === this.#element) {
+      while (wrapper.firstChild) {
+        this.#element.insertBefore(wrapper.firstChild, wrapper);
       }
+      this.#element.removeChild(wrapper);
+    }
 
-      // ---------------------------------------------------------------------------
-      //  Public API
-      // ---------------------------------------------------------------------------
+    // Remove loader
+    const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
+    if (loader) {
+      loader.remove();
+    }
 
-      /**
-       * Clean up all injected DOM, styles, and intervals.
-       * Restores the target element to its original state.
-       */
-      destroy() {
-        if (this.#destroyed) return;
-        this.#destroyed = true;
+    // Remove temporary crossfade elements
+    const crossfadeElements = this.#element.querySelectorAll(`.cbg-crossfade-${this.#uid}`);
+    crossfadeElements.forEach(el => el.remove());
 
-        // Stop any running slider
-        if (this.#sliderIntervalId !== null) {
-          clearInterval(this.#sliderIntervalId);
-          this.#sliderIntervalId = null;
-        }
+    // Remove inline CSS Variables and background-image
+    this.#element.style.backgroundImage = '';
+    this.#element.style.removeProperty('--cbg-duration');
+    this.#element.style.removeProperty('--cbg-overlay-color');
+    this.#element.style.removeProperty('--cbg-overlay-image');
+    this.#element.style.removeProperty('--cbg-min-overlay');
+  }
 
-        if (this.#observer) {
-          this.#observer.disconnect();
-          this.#observer = null;
-        }
+  /**
+   * The resolved options (read-only copy).
+   * @returns {ChameleonOptions}
+   */
+  get options() {
+    return { ...this.#options };
+  }
 
-        // Clean up dynamic classes on host
-        this.#element.classList.remove(`cbg-host-${this.#uid}`, 'cbg-host');
+  // ---------------------------------------------------------------------------
+  //  Initialization
+  // ---------------------------------------------------------------------------
 
-        // Unwrap the original content instead of resetting innerHTML
-        const wrapper = this.#element.querySelector(`#cbg-inner-${this.#uid}`);
-        if (wrapper && wrapper.parentNode === this.#element) {
-          while (wrapper.firstChild) {
-            this.#element.insertBefore(wrapper.firstChild, wrapper);
+  #init() {
+    this.#injectGlobalStyles();
+    this.#updateCSSVariables();
+    this.#buildDOM();
+
+    // Check for prefers-reduced-motion to auto-pause slider if enabled
+    if (this.#options.respectReducedMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.#isPaused = true;
+    }
+
+    if (this.#options.lazyLoad && 'IntersectionObserver' in window) {
+      this.#observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.#observer.disconnect();
+            this.#observer = null;
+            this.#retrieveBackground();
           }
-          this.#element.removeChild(wrapper);
-        }
-
-        // Remove loader
-        const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
-        if (loader) {
-          loader.remove();
-        }
-
-        // Remove temporary crossfade elements
-        const crossfadeElements = this.#element.querySelectorAll(`.cbg-crossfade-${this.#uid}`);
-        crossfadeElements.forEach(el => el.remove());
-
-        // Remove inline CSS Variables and background-image
-        this.#element.style.backgroundImage = '';
-        this.#element.style.removeProperty('--cbg-duration');
-        this.#element.style.removeProperty('--cbg-overlay-color');
-        this.#element.style.removeProperty('--cbg-overlay-image');
-        this.#element.style.removeProperty('--cbg-min-overlay');
-      }
-
-      /**
-       * The resolved options (read-only copy).
-       * @returns {ChameleonOptions}
-       */
-      get options() {
-        return { ...this.#options };
-      }
-
-      // ---------------------------------------------------------------------------
-      //  Initialization
-      // ---------------------------------------------------------------------------
-
-      #init() {
-        this.#injectGlobalStyles();
-        this.#updateCSSVariables();
-        this.#buildDOM();
-
-        // Check for prefers-reduced-motion to auto-pause slider if enabled
-        if (this.#options.respectReducedMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          this.#isPaused = true;
-        }
-
-        if (this.#options.lazyLoad && 'IntersectionObserver' in window) {
-          this.#observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                this.#observer.disconnect();
-                this.#observer = null;
-                this.#retrieveBackground();
-              }
-            });
-          });
-          this.#observer.observe(this.#element);
+        });
+      });
+      this.#observer.observe(this.#element);
+    } else {
+      if (this.#element.matches('body')) {
+        queueMicrotask(() => this.#retrieveBackground());
+      } else {
+        if (document.readyState === 'complete') {
+          this.#retrieveBackground();
         } else {
-          if (this.#element.matches('body')) {
-            queueMicrotask(() => this.#retrieveBackground());
-          } else {
-            if (document.readyState === 'complete') {
-              this.#retrieveBackground();
-            } else {
-              window.addEventListener('load', () => this.#retrieveBackground(), { once: true });
-            }
-          }
+          window.addEventListener('load', () => this.#retrieveBackground(), { once: true });
         }
       }
+    }
+  }
 
-      // ---------------------------------------------------------------------------
-      //  Play / Pause API
-      // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  //  Play / Pause API
+  // ---------------------------------------------------------------------------
 
-      /**
-       * Pause the slideshow.
-       */
-      pause() {
-        if (this.#destroyed || this.#options.type !== 'slider') return;
-        this.#isPaused = true;
-        if (this.#sliderIntervalId !== null) {
-          clearInterval(this.#sliderIntervalId);
-          this.#sliderIntervalId = null;
-        }
-      }
+  /**
+   * Pause the slideshow.
+   */
+  pause() {
+    if (this.#destroyed || this.#options.type !== 'slider') return;
+    this.#isPaused = true;
+    if (this.#sliderIntervalId !== null) {
+      clearTimeout(this.#sliderIntervalId);
+      this.#sliderIntervalId = null;
+    }
+  }
 
-      /**
-       * Resume the slideshow.
-       */
-      play() {
-        if (this.#destroyed || this.#options.type !== 'slider') return;
-        this.#isPaused = false;
-        // Only restart if not currently running
-        if (this.#sliderIntervalId === null) {
-          this.#startSliderLoop();
-        }
-      }
+  /**
+   * Resume the slideshow.
+   */
+  play() {
+    if (this.#destroyed || this.#options.type !== 'slider') return;
+    this.#isPaused = false;
+    // Only restart if not currently running
+    if (this.#sliderIntervalId === null) {
+      this.#startSliderLoop();
+    }
+  }
 
-      // ---------------------------------------------------------------------------
-      //  DOM Construction
-      // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  //  DOM Construction
+  // ---------------------------------------------------------------------------
 
-      /**
-       * Inject global styles once.
-       */
-      #injectGlobalStyles() {
-        if (ChameleonBackgrounds.#globalStylesInjected) return;
-        ChameleonBackgrounds.#globalStylesInjected = true;
+  /**
+   * Inject global styles once.
+   */
+  #injectGlobalStyles() {
+    if (ChameleonBackgrounds.#globalStylesInjected) return;
+    ChameleonBackgrounds.#globalStylesInjected = true;
 
-        const css = `
+    const css = `
       .cbg-host {
         position: relative;
       }
@@ -388,356 +379,364 @@
       }
     `;
 
-        const style = document.createElement('style');
-        style.id = 'chameleon-global-styles';
-        style.textContent = css;
-        document.head.appendChild(style);
+    const style = document.createElement('style');
+    style.id = 'chameleon-global-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  /**
+   * Apply CSS custom properties to the host element.
+   */
+  #updateCSSVariables() {
+    this.#element.classList.add(`cbg-host-${this.#uid}`, 'cbg-host');
+    this.#element.style.setProperty('--cbg-duration', `${this.#options.transitionDuration / 1000}s`);
+    this.#element.style.setProperty('--cbg-overlay-color', this.#options.overlayColor);
+
+    if (this.#options.overlayImage) {
+      this.#element.style.setProperty('--cbg-overlay-image', `url(${this.#options.overlayImage})`);
+    } else {
+      this.#element.style.setProperty('--cbg-overlay-image', 'none');
+    }
+
+    this.#element.style.setProperty('--cbg-min-overlay', String(this.#options.minOverlay));
+  }
+
+  /**
+   * Wrap existing content and insert the overlay loader.
+   */
+  #buildDOM() {
+    const uid = this.#uid;
+
+    const wrapper = document.createElement('div');
+    wrapper.id = `cbg-inner-${uid}`;
+    wrapper.classList.add('cbg-inner');
+
+    // Move all child nodes from the element into the wrapper
+    while (this.#element.firstChild) {
+      wrapper.appendChild(this.#element.firstChild);
+    }
+
+    const loader = document.createElement('div');
+    loader.classList.add('cbg-loader', `cbg-loader-${uid}`);
+
+    // Append wrapper and loader
+    this.#element.appendChild(wrapper);
+    this.#element.appendChild(loader);
+  }
+
+  // ---------------------------------------------------------------------------
+  //  Background Loading
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Route to the correct loader based on type.
+   */
+  #retrieveBackground() {
+    if (this.#destroyed) return;
+
+    if (this.#options.type === 'single') {
+      const singleSrc = Array.isArray(this.#options.src) ? this.#options.src[0] : this.#options.src;
+      this.#loadBackground(singleSrc);
+    } else if (this.#options.type === 'slider') {
+      this.#startSlider();
+    }
+  }
+
+  /**
+   * Preload an image and apply it as the element's background.
+   * Handles both string URLs and responsive image objects ({ url, srcset, sizes }).
+   * @param {string|ChameleonImageConfig} srcConfig - Image configuration or URL.
+   * @param {boolean}  [isFirst=true] - Whether this is the first image (skips overlay reset).
+   * @param {boolean}  [isCrossfade=false] - If true, handles true crossfading without solid color drop.
+   * @returns {Promise<void>}
+   */
+  #loadBackground(srcConfig, isFirst = true, isCrossfade = false) {
+    if (this.#destroyed) return Promise.resolve();
+
+    return new Promise((resolve) => {
+      const img = new Image();
+
+      let urlStr = srcConfig;
+      if (typeof srcConfig === 'object' && srcConfig.url) {
+        urlStr = srcConfig.url;
+        if (srcConfig.srcset) img.srcset = srcConfig.srcset;
+        if (srcConfig.sizes) img.sizes = srcConfig.sizes;
       }
 
-      /**
-       * Apply CSS custom properties to the host element.
-       */
-      #updateCSSVariables() {
-        this.#element.classList.add(`cbg-host-${this.#uid}`, 'cbg-host');
-        this.#element.style.setProperty('--cbg-duration', `${this.#options.transitionDuration / 1000}s`);
-        this.#element.style.setProperty('--cbg-overlay-color', this.#options.overlayColor);
-
-        if (this.#options.overlayImage) {
-          this.#element.style.setProperty('--cbg-overlay-image', `url(${this.#options.overlayImage})`);
-        } else {
-          this.#element.style.setProperty('--cbg-overlay-image', 'none');
-        }
-
-        this.#element.style.setProperty('--cbg-min-overlay', String(this.#options.minOverlay));
+      if (isFirst && 'fetchPriority' in img && this.#options.fetchPriority !== 'auto') {
+        img.fetchPriority = this.#options.fetchPriority;
       }
 
-      /**
-       * Wrap existing content and insert the overlay loader.
-       */
-      #buildDOM() {
-        const uid = this.#uid;
+      // Append to DOM to ensure viewport-based `sizes` calculate correctly in all browsers
+      img.style.position = 'absolute';
+      img.style.visibility = 'hidden';
+      img.style.width = '0';
+      img.style.height = '0';
+      this.#element.appendChild(img);
 
-        const wrapper = document.createElement('div');
-        wrapper.id = `cbg-inner-${uid}`;
-        wrapper.classList.add('cbg-inner');
+      img.onload = () => {
+        img.remove();
+        if (this.#destroyed) return resolve();
 
-        // Move all child nodes from the element into the wrapper
-        while (this.#element.firstChild) {
-          wrapper.appendChild(this.#element.firstChild);
-        }
+        // `img.currentSrc` retrieves the actual srcset chosen file, otherwise fallback to `urlStr`
+        const finalUrl = img.currentSrc || urlStr;
 
-        const loader = document.createElement('div');
-        loader.classList.add('cbg-loader', `cbg-loader-${uid}`);
+        if (isCrossfade && !isFirst) {
+          // --- Crossfade Transition Mode ---
+          const crossfadeDiv = document.createElement('div');
+          crossfadeDiv.classList.add('cbg-crossfade-el', `cbg-crossfade-${this.#uid}`);
+          crossfadeDiv.style.backgroundImage = `url("${finalUrl}")`;
 
-        // Append wrapper and loader
-        this.#element.appendChild(wrapper);
-        this.#element.appendChild(loader);
-      }
+          // Insert right behind the loader (or directly at start of host)
+          this.#element.insertBefore(crossfadeDiv, this.#element.firstChild);
 
-      // ---------------------------------------------------------------------------
-      //  Background Loading
-      // ---------------------------------------------------------------------------
+          // Trigger layout so the transition works
+          void crossfadeDiv.offsetWidth;
 
-      /**
-       * Route to the correct loader based on type.
-       */
-      #retrieveBackground() {
-        if (this.#destroyed) return;
+          crossfadeDiv.style.opacity = '1';
 
-        if (this.#options.type === 'single') {
-          const singleSrc = Array.isArray(this.#options.src) ? this.#options.src[0] : this.#options.src;
-          this.#loadBackground(singleSrc);
-        } else if (this.#options.type === 'slider') {
-          this.#startSlider();
-        }
-      }
-
-      /**
-       * Preload an image and apply it as the element's background.
-       * Handles both string URLs and responsive image objects ({ url, srcset, sizes }).
-       * @param {string|ChameleonImageConfig} srcConfig - Image configuration or URL.
-       * @param {boolean}  [isFirst=true] - Whether this is the first image (skips overlay reset).
-       * @param {boolean}  [isCrossfade=false] - If true, handles true crossfading without solid color drop.
-       * @returns {Promise<void>}
-       */
-      #loadBackground(srcConfig, isFirst = true, isCrossfade = false) {
-        if (this.#destroyed) return Promise.resolve();
-
-        return new Promise((resolve) => {
-          const img = new Image();
-
-          let urlStr = srcConfig;
-          if (typeof srcConfig === 'object' && srcConfig.url) {
-            urlStr = srcConfig.url;
-            if (srcConfig.srcset) img.srcset = srcConfig.srcset;
-            if (srcConfig.sizes) img.sizes = srcConfig.sizes;
-          }
-
-          if (isFirst && 'fetchPriority' in img && this.#options.fetchPriority !== 'auto') {
-            img.fetchPriority = this.#options.fetchPriority;
-          }
-
-          // Append to DOM to ensure viewport-based `sizes` calculate correctly in all browsers
-          img.style.position = 'absolute';
-          img.style.visibility = 'hidden';
-          img.style.width = '0';
-          img.style.height = '0';
-          this.#element.appendChild(img);
-
-          img.onload = () => {
-            img.remove();
-            if (this.#destroyed) return resolve();
-
-            // `img.currentSrc` retrieves the actual srcset chosen file, otherwise fallback to `urlStr`
-            const finalUrl = img.currentSrc || urlStr;
-
-            if (isCrossfade && !isFirst) {
-              // --- Crossfade Transition Mode ---
-              const crossfadeDiv = document.createElement('div');
-              crossfadeDiv.classList.add('cbg-crossfade-el', `cbg-crossfade-${this.#uid}`);
-              crossfadeDiv.style.backgroundImage = `url("${finalUrl}")`;
-
-              // Insert right behind the loader (or directly at start of host)
-              this.#element.insertBefore(crossfadeDiv, this.#element.firstChild);
-
-              // Trigger layout so the transition works
-              void crossfadeDiv.offsetWidth;
-
-              crossfadeDiv.style.opacity = '1';
-
-              setTimeout(() => {
-                if (this.#destroyed) return resolve();
-                this.#element.style.backgroundImage = `url("${finalUrl}")`;
-                this.#element.style.backgroundSize = 'cover';
-                this.#element.style.backgroundRepeat = 'no-repeat';
-                crossfadeDiv.remove();
-                resolve();
-              }, this.#options.transitionDuration);
-
-            } else {
-              // --- Solid Transition Mode or First Load ---
-              this.#element.style.backgroundImage = `url("${finalUrl}")`;
-              this.#element.style.backgroundSize = 'cover';
-              this.#element.style.backgroundRepeat = 'no-repeat';
-
-              const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
-              if (loader) {
-                loader.style.opacity = String(this.#options.minOverlay);
-              }
-              resolve();
-            }
-          };
-
-          img.onerror = () => {
-            img.remove();
-            console.warn(`[ChameleonBackgrounds] Failed to load image:`, srcConfig);
-            resolve(); // resolve anyway to keep logic flowing
-          };
-
-          img.src = urlStr;
-        });
-      }
-
-      /**
-      /**
-       * Reload background with a fade-out → swap → fade-in cycle.
-       * @param {string} [src] - Optional new image URL. If omitted, reloads using current options.
-       * @returns {Promise<void>}
-       */
-      reloadBackground(src) {
-        if (this.#destroyed) return Promise.resolve();
-
-        if (src !== undefined) {
-          if (this.#options.type === 'slider' && typeof src === 'string') {
-            // If the user passes a comma-separated string, split it.
-            this.#options.src = src.includes(',') ? src.split(',').map(s => s.trim()) : [src];
-          } else {
-            this.#options.src = src;
-          }
-        }
-
-        // Stop any running slider
-        if (this.#sliderIntervalId !== null) {
-          clearInterval(this.#sliderIntervalId);
-          this.#sliderIntervalId = null;
-        }
-
-        // For solid mode, we fade the loader up. For crossfade, we don't.
-        const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
-        if (loader && this.#options.transitionMode === 'solid') {
-          loader.style.opacity = '1';
-        }
-
-        return new Promise((resolve) => {
-          const waitTime = this.#options.transitionMode === 'solid' ? this.#options.transitionDuration : 0;
           setTimeout(() => {
             if (this.#destroyed) return resolve();
+            this.#element.style.backgroundImage = `url("${finalUrl}")`;
+            this.#element.style.backgroundSize = 'cover';
+            this.#element.style.backgroundRepeat = 'no-repeat';
+            crossfadeDiv.remove();
+            resolve();
+          }, this.#options.transitionDuration);
 
-            if (this.#options.type === 'single') {
-              const singleSrc = Array.isArray(this.#options.src) ? this.#options.src[0] : this.#options.src;
-              this.#loadBackground(singleSrc, false, this.#options.transitionMode === 'crossfade').then(resolve);
-            } else if (this.#options.type === 'slider') {
-              this.#startSlider();
-              resolve();
-            }
-          }, waitTime);
-        });
-      }
+        } else {
+          // --- Solid Transition Mode or First Load ---
+          this.#element.style.backgroundImage = `url("${finalUrl}")`;
+          this.#element.style.backgroundSize = 'cover';
+          this.#element.style.backgroundRepeat = 'no-repeat';
 
-      /**
-       * Update options on the fly without destroying the instance.
-       * @param {Object} newOptions - The new options to merge.
-       */
-      reloadOptions(newOptions) {
-        if (this.#destroyed) return;
-
-        const normalized = ChameleonBackgrounds.#normalizeOptions(newOptions);
-        this.#options = { ...this.#options, ...normalized };
-
-        this.#updateCSSVariables();
-        // Restart slider if needed
-        if (this.#options.type === 'slider' && !this.#isPaused && !this.#sliderIntervalId) {
-          this.#startSlider();
+          const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
+          if (loader) {
+            loader.style.opacity = String(this.#options.minOverlay);
+          }
+          this.#hasLoadedFirstBackground = true;
+          setTimeout(() => {
+            resolve();
+          }, this.#options.transitionDuration);
         }
+      };
+
+      img.onerror = () => {
+        img.remove();
+        console.warn(`[ChameleonBackgrounds] Failed to load image:`, srcConfig);
+        resolve(); // resolve anyway to keep logic flowing
+      };
+
+      img.src = urlStr;
+    });
+  }
+
+  /**
+  /**
+   * Reload background with a fade-out → swap → fade-in cycle.
+   * @param {string} [src] - Optional new image URL. If omitted, reloads using current options.
+   * @returns {Promise<void>}
+   */
+  reloadBackground(src) {
+    if (this.#destroyed) return Promise.resolve();
+
+    this.#transitionId++;
+
+    if (src !== undefined) {
+      if (this.#options.type === 'slider' && typeof src === 'string') {
+        // If the user passes a comma-separated string, split it.
+        this.#options.src = src.includes(',') ? src.split(',').map(s => s.trim()) : [src];
+      } else {
+        this.#options.src = src;
+      }
+    }
+
+    // Stop any running slider
+    if (this.#sliderIntervalId !== null) {
+      clearTimeout(this.#sliderIntervalId);
+      this.#sliderIntervalId = null;
+    }
+
+    if (this.#options.type === 'single') {
+      const singleSrc = Array.isArray(this.#options.src) ? this.#options.src[0] : this.#options.src;
+      return this.#cycleSliderSlide(singleSrc, this.#transitionId);
+    } else if (this.#options.type === 'slider') {
+      this.#startSlider(this.#transitionId);
+      return Promise.resolve();
+    }
+  }
+
+  /**
+   * Update options on the fly without destroying the instance.
+   * @param {Object} newOptions - The new options to merge.
+   */
+  reloadOptions(newOptions) {
+    if (this.#destroyed) return;
+
+    const normalized = ChameleonBackgrounds.#normalizeOptions(newOptions);
+    this.#options = { ...this.#options, ...normalized };
+
+    this.#updateCSSVariables();
+    // In v1/v2, reloadOptions did not restart the slider; the user called reloadBackground.
+    // We intentionally do not auto-restart here to prevent concurrent race conditions.
+  }
+
+  // ---------------------------------------------------------------------------
+  //  Slider
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Start the background slideshow.
+   * @param {number} tid - The transition ID
+   */
+  #startSlider(tid = this.#transitionId) {
+    if (this.#destroyed) return;
+
+    const sources = this.#options.src;
+    if (!Array.isArray(sources) || sources.length === 0) {
+      console.warn('[ChameleonBackgrounds] Slider mode requires an array of image URLs in `src`.');
+      return;
+    }
+
+    this.#currentSlideIndex = 0;
+
+    if (this.#hasLoadedFirstBackground) {
+      // Instance already has a background, crossfade smoothly
+      this.#cycleSliderSlide(sources[this.#currentSlideIndex], tid).then(() => {
+        if (this.#destroyed || this.#transitionId !== tid) return;
+        this.#currentSlideIndex = 1;
+        if (sources.length > 1) this.#startSliderLoop();
+      });
+    } else {
+      // First load, load immediately without solid color flash
+      this.#loadBackground(sources[this.#currentSlideIndex], true, this.#options.transitionMode === 'crossfade').then(() => {
+        if (this.#destroyed || this.#transitionId !== tid) return;
+        this.#hasLoadedFirstBackground = true;
+        this.#currentSlideIndex = 1;
+        if (sources.length > 1) this.#startSliderLoop();
+      });
+    }
+  }
+
+  #startSliderLoop() {
+    if (this.#destroyed || this.#isPaused) return;
+
+    // Parse as integers to prevent string concatenation bugs if users passed strings
+    const sDuration = parseInt(this.#options.sliderDuration, 10) || 8000;
+
+    this.#sliderIntervalId = setTimeout(() => {
+      if (this.#destroyed || this.#isPaused) {
+        this.#sliderIntervalId = null;
+        return;
       }
 
-      // ---------------------------------------------------------------------------
-      //  Slider
-      // ---------------------------------------------------------------------------
-
-      /**
-       * Start the background slideshow.
-       */
-      #startSlider() {
-        if (this.#destroyed) return;
-
-        const sources = this.#options.src;
-        if (!Array.isArray(sources) || sources.length === 0) {
-          console.warn('[ChameleonBackgrounds] Slider mode requires an array of image URLs in `src`.');
+      const tid = this.#transitionId;
+      this.#cycleSliderSlide(this.#options.src[this.#currentSlideIndex], tid).then(() => {
+        if (this.#destroyed || this.#isPaused || this.#transitionId !== tid) {
+          this.#sliderIntervalId = null;
           return;
         }
 
-        // Load the first slide immediately
-        this.#currentSlideIndex = 0;
-        this.#loadBackground(sources[this.#currentSlideIndex]).then(() => {
-          if (this.#destroyed) return;
+        this.#currentSlideIndex++;
 
-          this.#currentSlideIndex = 1;
-          if (sources.length === 1) return; // only one slide, nothing to rotate
-
-          this.#startSliderLoop();
-        });
-      }
-
-      #startSliderLoop() {
-        const sources = this.#options.src;
-
-        // Parse as integers to prevent string concatenation bugs if users passed strings
-        const sDuration = parseInt(this.#options.sliderDuration, 10) || 8000;
-        const tDuration = parseInt(this.#options.transitionDuration, 10) || 2000;
-        const interval = sDuration + tDuration * (this.#options.transitionMode === 'solid' ? 2 : 1);
-
-        this.#sliderIntervalId = setInterval(() => {
-          if (this.#destroyed || this.#isPaused) {
-            clearInterval(this.#sliderIntervalId);
+        if (this.#currentSlideIndex >= this.#options.src.length) {
+          if (this.#options.sliderLoop) {
+            this.#currentSlideIndex = 0;
+          } else {
             this.#sliderIntervalId = null;
             return;
           }
-
-          this.#cycleSliderSlide(sources[this.#currentSlideIndex]);
-          this.#currentSlideIndex++;
-
-          if (this.#currentSlideIndex >= sources.length) {
-            if (this.#options.sliderLoop) {
-              this.#currentSlideIndex = 0;
-            } else {
-              clearInterval(this.#sliderIntervalId);
-              this.#sliderIntervalId = null;
-            }
-          }
-        }, interval);
-      }
-
-      /**
-       * Cycle to a specific slide without resetting the slider instance.
-       * @param {string|ChameleonImageConfig} src - The image URL/config to load.
-       */
-      #cycleSliderSlide(src) {
-        if (this.#destroyed) return;
-
-        if (this.#options.transitionMode === 'solid') {
-          const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
-          if (loader) {
-            loader.style.opacity = '1';
-          }
-
-          setTimeout(() => {
-            if (this.#destroyed) return;
-            this.#loadBackground(src, false, false);
-          }, this.#options.transitionDuration);
-        } else {
-          // Crossfade mode triggers immediately
-          this.#loadBackground(src, false, true);
         }
-      }
 
-      // ---------------------------------------------------------------------------
-      //  Static Helpers
-      // ---------------------------------------------------------------------------
+        this.#startSliderLoop();
+      });
+    }, sDuration);
+  }
 
-      /**
-       * Convert legacy snake_case option keys to camelCase.
-       * @param {Object} opts
-       * @returns {Object}
-       */
-      static #normalizeOptions(opts) {
-        const result = {};
-        for (const [key, value] of Object.entries(opts)) {
-          const alias = ChameleonBackgrounds.#ALIASES[key];
-          result[alias ?? key] = value;
+  /**
+   * Cycle to a specific slide without resetting the slider instance.
+   * @param {string|ChameleonImageConfig} src - The image URL/config to load.
+   * @param {number} tid - The transition ID
+   * @returns {Promise<void>}
+   */
+  #cycleSliderSlide(src, tid = this.#transitionId) {
+    if (this.#destroyed) return Promise.resolve();
+
+    return new Promise(resolve => {
+      if (this.#options.transitionMode === 'solid') {
+        const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
+        if (loader) {
+          loader.style.opacity = '1';
         }
-        return result;
-      }
 
-      /**
-       * Resolve a CSS selector string or HTMLElement to an HTMLElement.
-       * @param {string|HTMLElement} el
-       * @returns {HTMLElement}
-       */
-      static #resolveElement(el) {
-        if (el instanceof HTMLElement) return el;
-        if (typeof el === 'string') {
-          if (el === 'body') return document.body;
-          const found = document.querySelector(el);
-          if (!found) throw new Error(`[ChameleonBackgrounds] Element not found: ${el}`);
-          return /** @type {HTMLElement} */ (found);
-        }
-        throw new TypeError(`[ChameleonBackgrounds] Invalid element: ${el}`);
+        setTimeout(() => {
+          if (this.#destroyed || this.#transitionId !== tid) return resolve();
+          this.#loadBackground(src, false, false).then(resolve);
+        }, this.#options.transitionDuration);
+      } else {
+        // Crossfade mode triggers immediately
+        this.#loadBackground(src, false, true).then(resolve);
       }
+    });
+  }
 
-      /**
-       * Generate a short unique ID for scoping styles.
-       * @returns {string}
-       */
-      static #generateUID() {
-        // Prefer crypto.randomUUID where available, otherwise fall back
-        if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-          return crypto.randomUUID().slice(0, 8);
-        }
-        // Fallback: random alphanumeric string
-        return Array.from({ length: 8 }, () =>
-          'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random() * 36))
-        ).join('');
-      }
+  // ---------------------------------------------------------------------------
+  //  Static Helpers
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Convert legacy snake_case option keys to camelCase.
+   * @param {Object} opts
+   * @returns {Object}
+   */
+  static #normalizeOptions(opts) {
+    const result = {};
+    for (const [key, value] of Object.entries(opts)) {
+      const alias = ChameleonBackgrounds.#ALIASES[key];
+      result[alias ?? key] = value;
     }
+    return result;
+  }
+
+  /**
+   * Resolve a CSS selector string or HTMLElement to an HTMLElement.
+   * @param {string|HTMLElement} el
+   * @returns {HTMLElement}
+   */
+  static #resolveElement(el) {
+    if (el instanceof HTMLElement) return el;
+    if (typeof el === 'string') {
+      if (el === 'body') return document.body;
+      const found = document.querySelector(el);
+      if (!found) throw new Error(`[ChameleonBackgrounds] Element not found: ${el}`);
+      return /** @type {HTMLElement} */ (found);
+    }
+    throw new TypeError(`[ChameleonBackgrounds] Invalid element: ${el}`);
+  }
+
+  /**
+   * Generate a short unique ID for scoping styles.
+   * @returns {string}
+   */
+  static #generateUID() {
+    // Prefer crypto.randomUUID where available, otherwise fall back
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID().slice(0, 8);
+    }
+    // Fallback: random alphanumeric string
+    return Array.from({ length: 8 }, () =>
+      'abcdefghijklmnopqrstuvwxyz0123456789'.charAt(Math.floor(Math.random() * 36))
+    ).join('');
+  }
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChameleonBackgrounds);
 
 
-    __webpack_exports__ = __webpack_exports__["default"];
+__webpack_exports__ = __webpack_exports__["default"];
 /******/ 	return __webpack_exports__;
-    /******/
-  })()
-    ;
+/******/ })()
+;
 });
 //# sourceMappingURL=chameleon-backgrounds.js.map
