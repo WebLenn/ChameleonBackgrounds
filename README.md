@@ -2,6 +2,7 @@
 
 A **zero-dependency** JavaScript library to dynamically load background images with elegant fade-in transitions and slideshow support.
 
+> **v3.0** — Added responsive `srcset`, seamless crossfading, lazy-loading, and play/pause API.
 > **v2.0** — Fully rewritten from scratch. No jQuery required.
 
 ---
@@ -13,9 +14,13 @@ Large background images slow down initial page loads. ChameleonBackgrounds **def
 ## Features
 
 - 🎯 **Zero dependencies** — no jQuery, no frameworks
-- 🖼️ **Single image** mode with preload + fade-in
+- 🖼️ **Responsive images** — native `srcset` and `sizes` support
 - 🎠 **Slider** mode with configurable duration and looping
+- ✨ **Crossfade & Solid** transitions
+- ⚡ **Lazy loading** via IntersectionObserver
+- ♿ **Accessibility** — respects `prefers-reduced-motion`
 - 🎨 **Overlay** support with color, pattern images, and minimum opacity
+- 🎛️ **Play / Pause API** for manual control
 - 🧹 **`destroy()`** method for clean teardown
 - 📦 **ES Module** + **UMD** dual distribution
 - 🔄 **Backward compatible** with v1 snake_case option names
@@ -112,22 +117,50 @@ const bg = new ChameleonBackgrounds({
 bg.destroy();
 ```
 
+### Responsive Images
+
+You can provide an object containing `url`, `srcset`, and `sizes` properties to leverage native browser responsive image support. This works perfectly for both `type: 'single'` and `type: 'slider'`.
+
+```js
+// Example using responsive images in a slider
+const bg = new ChameleonBackgrounds({
+  element: '#hero',
+  type: 'slider',
+  src: [
+    {
+      url: './img/slide1.jpg',
+      srcset: './img/slide1-mobile.jpg 480w, ./img/slide1.jpg 1920w',
+      sizes: '100vw'
+    },
+    {
+      url: './img/slide2.jpg',
+      srcset: './img/slide2-mobile.jpg 480w, ./img/slide2.jpg 1920w',
+      sizes: '100vw'
+    }
+  ],
+  transitionDuration: 1500
+});
+```
+
 ---
 
 ## Options
 
 | Option | Type | Default | Required | Description |
 |---|---|---|---|---|
-| `element` | `string \| HTMLElement` | `'body'` | yes | CSS selector or DOM element to attach to |
-| `type` | `'single' \| 'slider'` | `'single'` | yes | Background mode |
-| `src` | `string \| string[]` | `''` | yes | Image URL (single) or array of URLs (slider) |
-| `overlayColor` | `string` | `'#0f1e25'` | yes | Overlay color (hex, rgb, rgba, hsl) |
-| `overlayImage` | `string \| null` | `null` | no | Overlay pattern image URL |
-| `minOverlay` | `number` | `0` | no | Minimum overlay opacity after fade (0–1) |
-| `transitionDuration` | `number` | `2000` | yes | Fade duration in milliseconds |
-| `sliderDuration` | `number` | `8000` | slider only | Time each slide is shown (ms) |
-| `sliderLoop` | `boolean` | `false` | slider only | Restart slider after last slide |
-| `fetchPriority` | `string` | `'auto'` | no | Network priority for the initial image load. Set to `'high'` for LCP optimization. |
+| element | `string \| HTMLElement` | `'body'` | yes | CSS selector or DOM element to attach to |
+| type | `'single' \| 'slider'` | `'single'` | yes | Background mode |
+| src | `string \| array \| object` | `''` | yes | Image URL, array of URLs, or config object `{url, srcset, sizes}` |
+| overlayColor | `string` | `'#0f1e25'` | yes | Overlay color (hex, rgb, rgba, hsl) |
+| overlayImage | `string \| null` | `null` | no | Overlay pattern image URL |
+| minOverlay | `number` | `0` | no | Minimum overlay opacity after fade (0–1) |
+| transitionDuration | `number` | `2000` | yes | Fade duration in milliseconds |
+| sliderDuration | `number` | `8000` | slider only | Time each slide is shown (ms) |
+| sliderLoop | `boolean` | `false` | slider only | Restart slider after last slide |
+| fetchPriority | `string` | `'auto'` | no | Network priority for the initial image load. |
+| lazyLoad | `boolean` | `true` | no | Defer loading until element intersects viewport |
+| transitionMode | `'solid' \| 'crossfade'` | `'solid'` | no | Transition effect. `'solid'` fades to overlay color, `'crossfade'` fades between images |
+| respectReducedMotion | `boolean` | `false` | no | Auto-pause slider if user's OS has animations disabled |
 
 ### Legacy Option Names
 
@@ -141,6 +174,9 @@ For backward compatibility, v1 snake_case option names are still supported:
 | `min_overlay` | `minOverlay` |
 | `overlay_color` | `overlayColor` |
 | `overlay_image` | `overlayImage` |
+| `lazy_load` | `lazyLoad` |
+| `transition_mode` | `transitionMode` |
+| `respect_reduced_motion` | `respectReducedMotion` |
 
 ---
 
@@ -165,6 +201,14 @@ Creates a new instance and immediately begins loading.
 ### `.destroy()`
 
 Stops any running slider, removes all injected DOM and styles, and restores the target element to its original state.
+
+### `.play()`
+
+Resumes a paused slider.
+
+### `.pause()`
+
+Pauses an active slider.
 
 ### `.getOptions()` / `.options` (ESM)
 
