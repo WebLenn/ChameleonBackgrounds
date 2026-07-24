@@ -119,8 +119,22 @@ class ChameleonBackgrounds {
       this.#styleElement = null;
     }
 
-    // Restore original HTML and remove inline background-image
-    this.#element.innerHTML = this.#originalHTML;
+    // Unwrap the original content instead of resetting innerHTML
+    const wrapper = this.#element.querySelector(`#cbg-inner-${this.#uid}`);
+    if (wrapper && wrapper.parentNode === this.#element) {
+      while (wrapper.firstChild) {
+        this.#element.insertBefore(wrapper.firstChild, wrapper);
+      }
+      this.#element.removeChild(wrapper);
+    }
+
+    // Remove loader
+    const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
+    if (loader) {
+      loader.remove();
+    }
+
+    // Remove inline background-image
     this.#element.style.backgroundImage = '';
   }
 
@@ -209,17 +223,19 @@ class ChameleonBackgrounds {
    */
   #buildDOM() {
     const uid = this.#uid;
-    const content = this.#element.innerHTML;
 
     const wrapper = document.createElement('div');
     wrapper.id = `cbg-inner-${uid}`;
-    wrapper.innerHTML = content;
+
+    // Move all child nodes from the element into the wrapper
+    while (this.#element.firstChild) {
+      wrapper.appendChild(this.#element.firstChild);
+    }
 
     const loader = document.createElement('div');
     loader.classList.add(`cbg-loader-${uid}`);
 
-    // Replace element contents
-    this.#element.innerHTML = '';
+    // Append wrapper and loader
     this.#element.appendChild(wrapper);
     this.#element.appendChild(loader);
   }
