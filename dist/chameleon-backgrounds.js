@@ -83,7 +83,7 @@ __webpack_require__.r(__webpack_exports__);
  *                        |___/
  *
  *  @module ChameleonBackgrounds
- *  @version 2.1.2
+ *  @version 2.1.3
  *  @author Lennart van Ballegoij (https://weblenn.com/)
  *  @license MIT
  *  @see https://github.com/WebLenn/ChameleonBackgrounds
@@ -103,6 +103,7 @@ __webpack_require__.r(__webpack_exports__);
  * @property {number}                  [transitionDuration=2000] - Fade duration in milliseconds.
  * @property {number}                  [sliderDuration=8000]     - Time each slide is shown in milliseconds.
  * @property {boolean}                 [sliderLoop=false]        - Whether the slider restarts after the last slide.
+ * @property {'high'|'low'|'auto'}     [fetchPriority='auto']    - fetchPriority for the first loaded image (e.g., 'high' for LCP images).
  */
 
 class ChameleonBackgrounds {
@@ -117,6 +118,7 @@ class ChameleonBackgrounds {
     transitionDuration: 2000,
     sliderDuration: 8000,
     sliderLoop: false,
+    fetchPriority: 'auto',
   });
 
   // Legacy snake_case → camelCase alias map
@@ -127,6 +129,7 @@ class ChameleonBackgrounds {
     min_overlay: 'minOverlay',
     overlay_color: 'overlayColor',
     overlay_image: 'overlayImage',
+    fetch_priority: 'fetchPriority',
   });
 
   /** @type {ChameleonOptions} */
@@ -337,6 +340,9 @@ class ChameleonBackgrounds {
 
     return new Promise((resolve) => {
       const img = new Image();
+      if (isFirst && 'fetchPriority' in img && this.#options.fetchPriority !== 'auto') {
+        img.fetchPriority = this.#options.fetchPriority;
+      }
 
       img.onload = () => {
         if (this.#destroyed) return resolve();

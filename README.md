@@ -127,6 +127,7 @@ bg.destroy();
 | `transitionDuration` | `number` | `2000` | yes | Fade duration in milliseconds |
 | `sliderDuration` | `number` | `8000` | slider only | Time each slide is shown (ms) |
 | `sliderLoop` | `boolean` | `false` | slider only | Restart slider after last slide |
+| `fetchPriority` | `string` | `'auto'` | no | Network priority for the initial image load. Set to `'high'` for LCP optimization. |
 
 ### Legacy Option Names
 
@@ -140,6 +141,18 @@ For backward compatibility, v1 snake_case option names are still supported:
 | `min_overlay` | `minOverlay` |
 | `overlay_color` | `overlayColor` |
 | `overlay_image` | `overlayImage` |
+
+---
+
+## Optimize for Largest Contentful Paint (LCP)
+
+To get a great LCP score on PageSpeed Insights, you should set `fetchPriority: 'high'` on your main above-the-fold background instance.
+
+Additionally, because browsers cannot discover JavaScript-loaded images in the initial HTML document parse, you should add a preload link to your `<head>` for the hero image:
+
+```html
+<link rel="preload" as="image" href="path/to/hero.jpg" fetchpriority="high">
+```
 
 ---
 
