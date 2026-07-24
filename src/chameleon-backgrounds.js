@@ -388,7 +388,7 @@ class ChameleonBackgrounds {
           return;
         }
 
-        this.reloadBackground(sources[index]);
+        this.#cycleSliderSlide(sources[index]);
         index++;
 
         if (index >= sources.length) {
@@ -401,6 +401,24 @@ class ChameleonBackgrounds {
         }
       }, interval);
     });
+  }
+
+  /**
+   * Cycle to a specific slide without resetting the slider instance.
+   * @param {string} src - The image URL to load.
+   */
+  #cycleSliderSlide(src) {
+    if (this.#destroyed) return;
+
+    const loader = this.#element.querySelector(`.cbg-loader-${this.#uid}`);
+    if (loader) {
+      loader.style.opacity = '1';
+    }
+
+    setTimeout(() => {
+      if (this.#destroyed) return;
+      this.#loadBackground(src, false);
+    }, this.#options.transitionDuration);
   }
 
   // ---------------------------------------------------------------------------
