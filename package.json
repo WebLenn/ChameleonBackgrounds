@@ -1,0 +1,54 @@
+{
+  "name": "chameleon-backgrounds",
+  "version": "2.0.0",
+  "description": "A zero-dependency JavaScript library to dynamically load background images with elegant fade-in transitions and slideshow support.",
+  "type": "module",
+  "main": "dist/chameleon-backgrounds.js",
+  "module": "src/chameleon-backgrounds.js",
+  "exports": {
+    ".": {
+      "import": "./src/chameleon-backgrounds.js",
+      "require": "./dist/chameleon-backgrounds.js",
+      "default": "./dist/chameleon-backgrounds.js"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Open test/index.html in a browser to test.\""
+  },
+  "keywords": [
+    "background",
+    "image",
+    "loader",
+    "slider",
+    "slideshow",
+    "fade",
+    "transition",
+    "vanilla",
+    "javascript",
+    "no-jquery"
+  ],
+  "author": "Lennart van Ballegoij (https://weblenn.com/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebLenn/ChameleonBackgrounds.git"
+  },
+  "homepage": "https://github.com/WebLenn/ChameleonBackgrounds#readme",
+  "bugs": {
+    "url": "https://github.com/WebLenn/ChameleonBackgrounds/issues"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "webpack": "^5.109.0",
+    "webpack-cli": "^7.2.1"
+  }
+}

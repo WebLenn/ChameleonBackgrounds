@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChameleonBackgrounds v2 — Test Page</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .demo-section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+
+    #slider-demo {
+      width: 100%;
+      height: 350px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slider-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      background: transparent;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-right: 12px;
+      margin-top: 12px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    code {
+      background: rgba(255,255,255,0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    #log {
+      margin-top: 16px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #aaffaa;
+      min-height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🦎 ChameleonBackgrounds v2</h1>
+    <p class="subtitle">Zero-dependency background loader — no jQuery needed.</p>
+
+    <!-- Test 1: Single background on a hero div (not body, to avoid DOM wipe issues) -->
+    <div class="demo-section">
+      <h2>✅ Test 1 — Single Background (div)</h2>
+      <div id="single-demo" style="width: 100%; height: 250px; border-radius: 12px; overflow: hidden; position: relative;">
+        <span class="slider-label">Single image with fade-in</span>
+      </div>
+      <button class="btn" id="btn-destroy-single">Destroy Single</button>
+      <button class="btn" id="btn-recreate-single">Recreate Single</button>
+    </div>
+
+    <!-- Test 2: Slider on a div -->
+    <div class="demo-section">
+      <h2>✅ Test 2 — Slider (div element)</h2>
+      <div id="slider-demo">
+        <span class="slider-label">Slider cycles through 3 images</span>
+      </div>
+      <button class="btn" id="btn-destroy-slider">Destroy Slider</button>
+      <button class="btn" id="btn-recreate-slider">Recreate Slider</button>
+    </div>
+
+    <!-- Test 3: Legacy snake_case options -->
+    <div class="demo-section">
+      <h2>✅ Test 3 — Legacy snake_case Compatibility</h2>
+      <p>This test uses the v1-style <code>transition_duration</code> and <code>slider_loop</code> option names. Check the console for any errors.</p>
+      <div id="legacy-demo" style="width: 100%; height: 200px; border-radius: 12px; overflow: hidden; position: relative;">
+        <span class="slider-label">Legacy options test</span>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="demo-section">
+      <h2>📋 Log</h2>
+      <div id="log"></div>
+    </div>
+  </div>
+
+  <script src="../dist/chameleon-backgrounds.js"></script>
+  <script>
+    // Use picsum.photos for test images
+    const images = [
+      'https://picsum.photos/id/1015/1920/1080',  // river
+      'https://picsum.photos/id/1018/1920/1080',  // mountains
+      'https://picsum.photos/id/1025/1920/1080',  // dog
+    ];
+
+    function log(msg) {
+      const el = document.getElementById('log');
+      if (el) el.innerHTML += '→ ' + msg + '<br>';
+      console.log('[ChameleonTest] ' + msg);
+    }
+
+    // -----------------------------------------------------------------------
+    //  Test 1: Single background on a div
+    // -----------------------------------------------------------------------
+    let singleBg = new ChameleonBackgrounds({
+      element: '#single-demo',
+      type: 'single',
+      src: images[0],
+      overlayColor: '#0f1e25',
+      minOverlay: 0.4,
+      transitionDuration: 2000
+    });
+    log('Single background created');
+
+    document.getElementById('btn-destroy-single').addEventListener('click', function () {
+      singleBg.destroy();
+      log('Single background destroyed');
+    });
+
+    document.getElementById('btn-recreate-single').addEventListener('click', function () {
+      singleBg = new ChameleonBackgrounds({
+        element: '#single-demo',
+        type: 'single',
+        src: images[1],
+        overlayColor: '#1a1a2e',
+        minOverlay: 0.3,
+        transitionDuration: 1500
+      });
+      log('Single background recreated with new image');
+    });
+
+    // -----------------------------------------------------------------------
+    //  Test 2: Slider on a div
+    // -----------------------------------------------------------------------
+    let sliderBg = new ChameleonBackgrounds({
+      element: '#slider-demo',
+      type: 'slider',
+      src: images,
+      overlayColor: '#2d4a3e',
+      minOverlay: 0.3,
+      transitionDuration: 1500,
+      sliderDuration: 3000,
+      sliderLoop: true
+    });
+    log('Slider created (3 images, looping)');
+
+    document.getElementById('btn-destroy-slider').addEventListener('click', function () {
+      sliderBg.destroy();
+      log('Slider destroyed');
+    });
+
+    document.getElementById('btn-recreate-slider').addEventListener('click', function () {
+      sliderBg = new ChameleonBackgrounds({
+        element: '#slider-demo',
+        type: 'slider',
+        src: images,
+        overlayColor: '#4a2d3e',
+        minOverlay: 0.2,
+        transitionDuration: 2000,
+        sliderDuration: 4000,
+        sliderLoop: true
+      });
+      log('Slider recreated with new overlay color');
+    });
+
+    // -----------------------------------------------------------------------
+    //  Test 3: Legacy snake_case option names
+    // -----------------------------------------------------------------------
+    new ChameleonBackgrounds({
+      element: '#legacy-demo',
+      type: 'single',
+      src: images[2],
+      overlayColor: '#3a2e1a',
+      min_overlay: 0.5,
+      transition_duration: 2500
+    });
+    log('Legacy options test created (snake_case → camelCase alias)');
+  </script>
+</body>
+</html>

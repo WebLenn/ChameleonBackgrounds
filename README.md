@@ -1,135 +1,201 @@
-ChameleonBackgrounds
-===================
-A jQuery library to dynamically load background elements.
-See live demo's at http://chameleonbackgrounds.com
+# ChameleonBackgrounds
 
-------------
-I essentially created this plugin to **withhold large background image files from the initial load**.
-This would not only **improve loading times** but also meant that we could show the background image when it's actually fully loaded.
-Therefore I created a simple overlay that creates a fadeIn effect by using the **CSS transition-duration** property.
+A **zero-dependency** JavaScript library to dynamically load background images with elegant fade-in transitions and slideshow support.
 
-----------
+> **v2.0** — Fully rewritten from scratch. No jQuery required.
 
+---
 
-Basic Usage
--------------
+## Why?
 
-See the snippets below for basic usage, use type "single" for a single background image and type "slider" for a slideshow.
+Large background images slow down initial page loads. ChameleonBackgrounds **defers loading** these images and reveals them with a smooth CSS transition once they're fully downloaded — no layout shifts, no flicker.
 
+## Features
 
-#### <i class="icon-code"></i>Type Single
+- 🎯 **Zero dependencies** — no jQuery, no frameworks
+- 🖼️ **Single image** mode with preload + fade-in
+- 🎠 **Slider** mode with configurable duration and looping
+- 🎨 **Overlay** support with color, pattern images, and minimum opacity
+- 🧹 **`destroy()`** method for clean teardown
+- 📦 **ES Module** + **UMD** dual distribution
+- 🔄 **Backward compatible** with v1 snake_case option names
+
+---
+
+## Installation
+
+### Package Managers (npm / yarn / bun)
+
+```bash
+# npm
+npm install chameleon-backgrounds
+
+# yarn
+yarn add chameleon-backgrounds
+
+# bun
+bun add chameleon-backgrounds
 ```
+
+### CDN / Script Tag
+
+```html
+<script src="dist/chameleon-backgrounds.js"></script>
+```
+
+### ES Module
+
+```js
+import ChameleonBackgrounds from 'chameleon-backgrounds';
+```
+
+---
+
+## Quick Start
+
+### Single Background
+
+```html
+<script src="dist/chameleon-backgrounds.js"></script>
 <script>
-  var options = {
+  const bg = new ChameleonBackgrounds({
+    element: 'body',
+    type: 'single',
+    src: './img/chameleon.jpg',
+    overlayColor: '#0f1e25',
+    overlayImage: './img/transparent-tile.png', // optional
+    minOverlay: 0.5,                            // optional, default: 0
+    transitionDuration: 2000
+  });
+</script>
+```
+
+### Slider / Slideshow
+
+```html
+<div id="hero"></div>
+
+<script src="dist/chameleon-backgrounds.js"></script>
+<script>
+  const bg = new ChameleonBackgrounds({
+    element: '#hero',
+    type: 'slider',
+    src: [
+      './img/image1.jpg',
+      './img/image2.jpg',
+      './img/image3.jpg'
+    ],
+    overlayColor: '#656946',
+    overlayImage: './img/transparent-tile.png', // optional
+    minOverlay: 0.6,                            // optional
+    transitionDuration: 3000,
+    sliderDuration: 4000,
+    sliderLoop: true
+  });
+</script>
+```
+
+### ES Module Usage
+
+```js
+import ChameleonBackgrounds from 'chameleon-backgrounds';
+
+const bg = new ChameleonBackgrounds({
+  element: '#hero',
+  type: 'single',
+  src: '/images/hero.jpg',
+  overlayColor: '#1a1a2e',
+  transitionDuration: 1500
+});
+
+// Clean up when done
+bg.destroy();
+```
+
+---
+
+## Options
+
+| Option | Type | Default | Required | Description |
+|---|---|---|---|---|
+| `element` | `string \| HTMLElement` | `'body'` | yes | CSS selector or DOM element to attach to |
+| `type` | `'single' \| 'slider'` | `'single'` | yes | Background mode |
+| `src` | `string \| string[]` | `''` | yes | Image URL (single) or array of URLs (slider) |
+| `overlayColor` | `string` | `'#0f1e25'` | yes | Overlay color (hex, rgb, rgba, hsl) |
+| `overlayImage` | `string \| null` | `null` | no | Overlay pattern image URL |
+| `minOverlay` | `number` | `0` | no | Minimum overlay opacity after fade (0–1) |
+| `transitionDuration` | `number` | `2000` | yes | Fade duration in milliseconds |
+| `sliderDuration` | `number` | `8000` | slider only | Time each slide is shown (ms) |
+| `sliderLoop` | `boolean` | `false` | slider only | Restart slider after last slide |
+
+### Legacy Option Names
+
+For backward compatibility, v1 snake_case option names are still supported:
+
+| v1 (snake_case) | v2 (camelCase) |
+|---|---|
+| `transition_duration` | `transitionDuration` |
+| `slider_duration` | `sliderDuration` |
+| `slider_loop` | `sliderLoop` |
+| `min_overlay` | `minOverlay` |
+| `overlay_color` | `overlayColor` |
+| `overlay_image` | `overlayImage` |
+
+---
+
+## API
+
+### `new ChameleonBackgrounds(options)`
+
+Creates a new instance and immediately begins loading.
+
+### `.destroy()`
+
+Stops any running slider, removes all injected DOM and styles, and restores the target element to its original state.
+
+### `.getOptions()` / `.options` (ESM)
+
+Returns a read-only copy of the resolved options.
+
+---
+
+## Migration from v1
+
+1. **Remove jQuery** — ChameleonBackgrounds v2 uses native DOM APIs.
+2. **Rename options** (optional) — snake_case names still work, but camelCase is now preferred.
+3. **Use `new`** — `new ChameleonBackgrounds(options)` works identically to v1.
+4. **Clean up** — Call `.destroy()` when removing the background (new in v2).
+
+```diff
+- <script src="jquery.min.js"></script>
+- <script src="chameleonbackgrounds.js"></script>
++ <script src="dist/chameleon-backgrounds.js"></script>
+
+  <script>
+-   var options = {
++   const options = {
       element: 'body',
       type: 'single',
       src: './img/chameleon.jpg',
       overlayColor: '#0f1e25',
-      overlayImage: './img/transparent-tile.png', /* Optional */
-      minOverlay: '0.5', /* Optional, Default='0'; */
-      transition_duration: 2000
-  }
+-     transition_duration: 2000
++     transitionDuration: 2000
+    };
 
-  background = new ChameleonBackgrounds(options);
-</script>
+-   background = new ChameleonBackgrounds(options);
++   const background = new ChameleonBackgrounds(options);
+  </script>
 ```
 
-> **Note:**
-> Initializing on element "body" can cause some bugs when there are footer scripts present, read about it in [<i class="icon-folder-open"></i> Additional information](#additionalinformation)
+---
 
+## Tips
 
-#### <i class="icon-code"></i>Type Slider
-```
-<script>
-  var options = {
-      element: '#bckoverlay-sample',
-      type: 'slider',
-      src: [
-        './img/image1.jpg',
-        './img/image2.jpg',
-      ],
-      overlayColor: '#656946',
-      overlayImage: './img/transparent-tile.png', /* Optional */
-      minOverlay: '0.6', /* Optional, Default='0'; */
-      transition_duration: 3000,
-      slider_duration: 4000,
-      slider_loop: true
-  }
+- **Transparent patterns** work great as `overlayImage` — combine with `overlayColor` and `minOverlay` for cohesive designs across different background images.
+- Find awesome transparent patterns at [transparenttextures.com](https://www.transparenttextures.com/).
 
-  background = new ChameleonBackgrounds(options);
-</script>
-```
+---
 
-Options
--------------------
-#### <i class="icon-file"></i>Type Single
-| Option   | Info  | Required   |
-| :------- | :---- | :--------: |
-| element  | ChameleonBackgrounds will initialize on this element.<br/> **Examples:** "body", "#htmlid", ".htmlclass" |  yes       |
-| type     | The type can either be "single" or "slider". |  yes       |
-| src      | The image source, on type "single" this has to be a string to the path/url of the image. |  yes       |
-| overlayColor | The overlay color for the background loader, can be in HEX,RGBA or HSLA.<br /> **Examples:** "#656946", "rgb(101, 105, 70)"  |  yes       |
-| overlayImage | The overlay background(pattern) for the background loader, completely optional but gives great effect combined with a transparent pattern! |  no       |
-| minOverlay   | The minimum overlay value, is used to prevent the overlay from completely fading out combined with the overlayColor and overlayImage this can create amazing effects! Optional Default=0  |  no   |
-| transition_duration   | The transition duration, the time it takes for the overlay to fadeout, serve value in miliseconds!  |  yes       |
+## License
 
-#### <i class="icon-file"></i>Type Slider
-| Option   | Info  | Required   |
-| :------- | :---- | :--------: |
-| element  | ChameleonBackgrounds will initialize on this element.<br/> **Examples:** "body", "#htmlid", ".htmlclass" |  yes       |
-| type     | The type can either be "single" or "slider". |  yes       |
-| src      | The image source, on type "slider" this has to be an array with paths/urls to the images. |  yes       |
-| overlayColor | The overlay color for the background loader, can be in HEX,RGBA or HSLA.<br /> **Examples:** "#656946", "rgb(101, 105, 70)"  |  yes       |
-| overlayImage | The overlay background(pattern) for the background loader, completely optional but gives great effect combined with a transparent pattern! |  no       |
-| minOverlay   | The minimum overlay value, is used to prevent the overlay from completely fading out combined with the overlayColor and overlayImage this can create amazing effects! Optional Default=0  |  no   |
-| transition_duration   | The transition duration, the time it takes for the overlay to fadeout, serve value in miliseconds!  |  yes       |
-| slider_duration  | The slider duration, the time the image is shown count starts when the transition duration is past, serve value in miliseconds!  |  yes   |
-| slider_loop| Slider loop, set to true if you want the slider to auto restart on finish.  |  yes       |
-
-<a name="additionalinformation"></a>Additional information
--------------------
-> **Element body:**
-> When ChameleonBackgrounds gets initialized it'll add 2 new elements to create the fadein effect, 1 of these elements is used to wrap around the existing html.
-> If it gets initialized on the body element it'll try to wrap all html in the <body> into a new html element, if the body contains footerscripts they'll get moved and therefore recalled.
-> Calling a script twice can cause bugs therefore when initializing ChameleonBackgrounds on the &lt;body&gt; use on of the methods below to load other footer scripts.
-
->#### <i class="icon-code"></i> Method1
-
->```
-><script src="inc/js/jquery-3.1.1.min.js"></script>
-><script src="inc/js/chameleonbackgrounds.js"></script>
-><script>
->	background = new ChameleonBackgrounds();
-></script>
-><script src="inc/js/your-footerscript.js"></script>
->```
->Inside your-footerscript.js wrap all code in an if statement like the snippet below
->```
-><script>
->	if(background.bodyReplaced){
->		/* Your script here */
->	}
-></script>
->```
-
->#### <i class="icon-code"></i> Method2
->```
-><script src="inc/js/jquery-3.1.1.min.js"></script>
-><script src="inc/js/chameleonbackgrounds.js"></script>
-><script>
->	background = new ChameleonBackgrounds();
->	if(background.bodyReplaced){
->		/* Use getScript to load your JS file */
->		$.getScript('inc/js/your-footerscript.js');
->	}
-></script>
->```
-
-<br />
-
-> **Use transparent patterns as overlayImage**
-> We love to use transparent patterns as overlayImages, these transparent patterns combined with the overlayColor and minOverlay can create amazing effects.
-> Take our site for example, allmost every images has diffrent colors but because of the green overlayColor in combination with the minOverlay and overlayImages it looks like every image is part of the design.
->
-> Looking for some awesome transparent patterns ?
-> We love the patterns on https://.transparenttextures.com
+[MIT](./LICENSE) © [Lennart van Ballegoij](https://weblenn.com/)
