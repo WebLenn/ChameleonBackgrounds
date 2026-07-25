@@ -190,6 +190,36 @@ Additionally, because browsers cannot discover JavaScript-loaded images in the i
 <link rel="preload" as="image" href="path/to/hero.jpg" fetchpriority="high">
 ```
 
+### SSR Hydration (Zero CLS)
+
+If you want to completely eliminate layout shifts (CLS) and load the background instantly, you can hardcode the initial state into your HTML. The script will automatically detect this and "hydrate" the DOM without re-rendering it.
+
+**1. Apply inline styles to your target element (e.g., `<body class="cbg-host">`)**
+Include your initial background image, overlay properties, and `cbg-host` class.
+
+**2. Wrap your content in a `<div class="cbg-inner">`**
+
+**3. Add the `<div class="cbg-loader">` right after it**
+
+**Example:**
+```html
+<!-- 1. Setup the host element with the background and CSS variables -->
+<body class="cbg-host" style="background-image: url('path/to/image.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; --cbg-duration: 2s; --cbg-overlay-color: #0f1e25; --cbg-min-overlay: 0.5;">
+  
+  <!-- 2. Wrap your page content -->
+  <div class="cbg-inner">
+     <h1>My Website</h1>
+     <p>Content goes here...</p>
+  </div>
+  
+  <!-- 3. Add the loader div at the very bottom of the host element -->
+  <div class="cbg-loader" style="opacity: 0.5;"></div>
+
+</body>
+```
+
+When `ChameleonBackgrounds` initializes on this element, it will instantly take over without causing any flickers, repaints, or layout shifts!
+
 ---
 
 ## API

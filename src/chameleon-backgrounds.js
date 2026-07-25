@@ -14,7 +14,7 @@
  *                        |___/
  *
  *  @module ChameleonBackgrounds
- *  @version 3.0.1
+ *  @version 3.1.0
  *  @author Lennart van Ballegoij (https://weblenn.com/)
  *  @license MIT
  *  @see https://github.com/WebLenn/ChameleonBackgrounds
@@ -99,6 +99,9 @@ class ChameleonBackgrounds {
 
   /** @type {boolean} */
   #hasLoadedFirstBackground = false;
+
+  /** @type {boolean} */
+  #isHydrated = false;
 
   /** @type {number} */
   #transitionId = 0;
@@ -339,6 +342,23 @@ class ChameleonBackgrounds {
   #buildDOM() {
     const uid = this.#uid;
 
+    // Check for SSR Hydration
+    let innerNode = null;
+    let loaderNode = null;
+    for (const child of this.#element.children) {
+      if (child.classList.contains('cbg-inner')) innerNode = child;
+      if (child.classList.contains('cbg-loader')) loaderNode = child;
+    }
+
+    if (innerNode && loaderNode) {
+      // Adopt existing DOM
+      innerNode.id = `cbg-inner-${uid}`;
+      loaderNode.classList.add(`cbg-loader-${uid}`);
+      this.#hasLoadedFirstBackground = true;
+      this.#isHydrated = true;
+      return;
+    }
+
     const wrapper = document.createElement('div');
     wrapper.id = `cbg-inner-${uid}`;
     wrapper.classList.add('cbg-inner');
@@ -533,12 +553,18 @@ class ChameleonBackgrounds {
     this.#currentSlideIndex = 0;
 
     if (this.#hasLoadedFirstBackground) {
-      // Instance already has a background, crossfade smoothly
-      this.#cycleSliderSlide(sources[this.#currentSlideIndex], tid).then(() => {
-        if (this.#destroyed || this.#transitionId !== tid) return;
+      if (this.#isHydrated) {
+        this.#isHydrated = false;
         this.#currentSlideIndex = 1;
         if (sources.length > 1) this.#startSliderLoop();
-      });
+      } else {
+        // Instance already has a background, crossfade smoothly
+        this.#cycleSliderSlide(sources[this.#currentSlideIndex], tid).then(() => {
+          if (this.#destroyed || this.#transitionId !== tid) return;
+          this.#currentSlideIndex = 1;
+          if (sources.length > 1) this.#startSliderLoop();
+        });
+      }
     } else {
       // First load, load immediately without solid color flash
       this.#loadBackground(sources[this.#currentSlideIndex], true, this.#options.transitionMode === 'crossfade').then(() => {
