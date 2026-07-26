@@ -83,7 +83,7 @@ __webpack_require__.r(__webpack_exports__);
  *                        |___/
  *
  *  @module ChameleonBackgrounds
- *  @version 3.1.0
+ *  @version 3.1.1
  *  @author Lennart van Ballegoij (https://weblenn.com/)
  *  @license MIT
  *  @see https://github.com/WebLenn/ChameleonBackgrounds
