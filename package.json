@@ -1,6 +1,6 @@
 {
   "name": "chameleon-backgrounds",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A zero-dependency JavaScript library to dynamically load background images with elegant fade-in transitions and slideshow support.",
   "main": "dist/chameleon-backgrounds.js",
   "module": "src/chameleon-backgrounds.js",
@@ -16,6 +16,7 @@
   "files": [
     "src/",
     "dist/",
+    "index.d.ts",
     "README.md",
     "LICENSE"
   ],
